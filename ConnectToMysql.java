@@ -6,20 +6,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import java.sql.SQLException;
-//Î÷ÃæÕâ¸öµØÖ·´æ´¢µÄÊÇjdbcËùĞèÒªµ¼ÈëµÄjarÎÄ¼ş
+//è¥¿é¢è¿™ä¸ªåœ°å€å­˜å‚¨çš„æ˜¯jdbcæ‰€éœ€è¦å¯¼å…¥çš„jaræ–‡ä»¶
 //C:\Program Files (x86)\MySQL\Connector.J 5.1
 public class ConnectToMysql {
 	public Connection connection;
 	public ConnectToMysql(){
 		try{
-			Class.forName("com.mysql.jdbc.Driver");//´Ë¾äÊÇÓÃÀ´¼ÓÔØÇı¶¯µÄ
+			Class.forName("com.mysql.jdbc.Driver");//æ­¤å¥æ˜¯ç”¨æ¥åŠ è½½é©±åŠ¨çš„
 			String dbURL = "jdbc:mysql://localhost:3306";
-			connection = DriverManager.getConnection(dbURL, "root", "chineteklyn123");
+			connection = DriverManager.getConnection(dbURL, "root", "password");
 			System.out.println("Successfully linked to the mysql server.");
 			
-			//´Ë¾ä¿ÉÄÜ»áÅ×³öSQLException
+			//æ­¤å¥å¯èƒ½ä¼šæŠ›å‡ºSQLException
 //			Statement stmt = connection.createStatement();
-//			//sqlStringµ±ÖĞÎªSQLÓï¾ä.executeUpdateÖ´ĞĞ¸ÃÓï¾ä¡£
+//			//sqlStringå½“ä¸­ä¸ºSQLè¯­å¥.executeUpdateæ‰§è¡Œè¯¥è¯­å¥ã€‚
 //			//String sqlUpdateString;
 //			//stmt.executeUpdate(sqlString);
 //			
