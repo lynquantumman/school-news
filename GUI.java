@@ -25,25 +25,28 @@ public class GUI extends JFrame{
 	private static final long serialVersionUID = 2380659271955394856L;
 //这里serializable是什么意思呀
 	JButton shuaxin;
+	JButton faweibo;
+	JPanel faheshua;
 	JButton jiaguanzhu;
 	JButton quxiaoguanzhu;
 	JButton wodexinxi;
 	JTextArea neirong;
+	
 	int USER_ID;
 	Statement stmt;
 	public GUI(int USER_ID, Statement stmt){
 		this.USER_ID = USER_ID;
 		this.stmt = stmt;
 		//===界面的基本设计
-		JButton faweibo = new JButton("发微博");
-		JButton shuaxin = new JButton("刷新");
-		JPanel faheshua = new JPanel();
+		faweibo = new JButton("发微博");
+		shuaxin = new JButton("刷新");
+		faheshua = new JPanel();
 		faheshua.add(faweibo);
 		faheshua.add(shuaxin);
-		JButton jiaguanzhu = new JButton("关注别人");
-		JButton quxiaoguanzhu = new JButton("取消关注");
-		JButton wodexinxi = new JButton("我的信息");
-		JTextArea neirong = new JTextArea("您有什么新的想法呢，亲爱的");
+		jiaguanzhu = new JButton("关注别人");
+		quxiaoguanzhu = new JButton("取消关注");
+		wodexinxi = new JButton("我的信息");
+		neirong = new JTextArea("您有什么新的想法呢，亲爱的");
 		setLayout(new BorderLayout());
 		
 		add(faheshua,BorderLayout.NORTH);
@@ -51,25 +54,28 @@ public class GUI extends JFrame{
 		add(quxiaoguanzhu,BorderLayout.WEST);
 		add(wodexinxi,BorderLayout.SOUTH);
 		add(neirong,BorderLayout.CENTER);
-		
+		setBounds(40,20,700,500);
 		setVisible(true);
 		//===添加事件监听
 		addEvent();
 	}
 	
-	private void addEvent(){
+	void addEvent(){
 		shuaxin.addActionListener(
 			new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent shuaxinE){
 					try {
-						ResultSet rs = stmt.executeQuery("SELECT * FROM FOLLOW"
-								+ "WHERE FOLLOWER ="
+						ResultSet rs = stmt.executeQuery("SELECT * FROM FOLLOW WHERE FOLLOWER_ID ="
 								+ ""+USER_ID);
 						while(rs.next()){
 							ResultSet rsWeibo = stmt.executeQuery("SELECT * FROM WEIBO WHERE USER_ID="
-									+ ""+rs.getInt("FOLLOWEE"));
+									+ ""+rs.getInt("FOLLOWEE_ID"));
+							rsWeibo.absolute(1);
 							neirong.append(rsWeibo.getString("NEIRONG"));
+						}
+						if("您有什么新的想法呢，亲爱的".equals(neirong.getText())){
+							neirong.setText("哎呀，没什么新微博呢");
 						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -102,14 +108,14 @@ public class GUI extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent wodexinxiE){
 					try {
-						ResultSet rs = stmt.executeQuery("SELECT * FROM USERS"
-								+ "WHERE USER_ID ="
-								+ ""+USER_ID);
+						ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE USER_ID ="
+					+USER_ID);
+						rs.absolute(1);
 						String ans =
-						rs.getInt("USER_ID")+
-						rs.getString("USER_NAME")+
-						rs.getString("ZHANGHAO")+
-						rs.getString("MIMA");
+						"USER_ID: "+rs.getInt("USER_ID")+"\r\n"+
+						"昵称: "+rs.getString("USER_NAME")+"\r\n"+
+						"帐号: "+rs.getString("ZHANGHAO")+"\r\n"+
+						"密码: "+rs.getString("MIMA");
 						neirong.setText(ans);
 						
 					} catch (SQLException e) {

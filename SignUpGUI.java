@@ -68,19 +68,20 @@ public class SignUpGUI extends JFrame{
 					
 					try {
 						stmt.executeUpdate("INSERT INTO USERS VALUES (NULL,"
-											+ "'"+ nicheng.getText()+"'"
-											+ "'"+ zhanghao.getText()+"'"
-											+ "'"+ mima.getText()+"'"
+											+ "'"+ nicheng.getText()+"',"
+											+ "'"+ zhanghao.getText()+"',"
+											+ "'"+ mima.getText()+"');"
 											);
 						stmt.executeUpdate("CREATE TABLE WEIBO("
-								+ "USER_ID INT"
-								+ "WEIBO_ID INT"
-								+ "NEIRONG VARCHAR(140)"
-								+ ");");
+											+ "USER_ID INT,"
+											+ "WEIBO_ID INT,"
+											+ "NEIRONG VARCHAR(140)"
+											+ ");");
 						
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						System.out.println("SignUpGUI 84");
 					}
 					
 				}
@@ -92,23 +93,23 @@ public class SignUpGUI extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent dengluE){
 						//跳转到GUI页面
-					
-						
 						try {
+							
 							ResultSet rs;
-							rs = stmt.executeQuery("SELECT (USER_ID, MIMA)"
-									+ "FROM USERS WHERE ZHANGHAO="
-									+ "'"+zhanghao.getText()+"';"
-									);
-							if(rs.getString("MIMA")==mima.getText()){
+							rs = stmt.executeQuery("SELECT USER_ID, MIMA FROM USERS WHERE ZHANGHAO="
+									+ "'"+zhanghao.getText()+"';");
+							rs.absolute(1);
+							
+							if(rs.getString("MIMA").equals(mima.getText())){
+								setVisible(false);
 								new GUI(rs.getInt("USER_ID"), stmt);
 								//这里是否需要关闭stmt，下面的语句是测试语句
-								System.out.println("哎呀，需要关闭stmt了");
 							}
 							else
 								stmt.close();
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
+							System.out.println("SignUpGUI111");
 							e.printStackTrace();
 						}
 						

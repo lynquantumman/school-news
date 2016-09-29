@@ -16,10 +16,11 @@ public class Guanzhujiemian extends JFrame{
 		setBounds(400,300,400,100);
 		
 		queding = new JButton("确定");
-		nicheng = new JTextField("那个人的昵称是多少呢");
+		nicheng = new JTextField("那个人的昵称是啥呢");
 		
-		add(queding);
 		add(nicheng);
+		add(queding);
+		
 		setVisible(true);
 		
 		addEvent();
